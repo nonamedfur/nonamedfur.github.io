@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Google</title>
+    <!-- Default High-Res Icon (Google) -->
+    <link id="dynamic-favicon" rel="shortcut icon" href="https://www.google.com/s2/favicons?domain=google.com&sz=128">
+    
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        input { padding: 8px; width: 300px; margin-bottom: 10px; display: block; }
+        label { font-weight: bold; display: block; margin-top: 15px; }
+        .presets { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
+        button { padding: 8px 12px; cursor: pointer; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 4px; }
+        button:hover { background-color: #e0e0e0; }
+        .note { font-size: 0.9em; color: #666; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <p>if you are changing it by hand make sure to make it look believeable...</p>
+
+    <label for="titleInput">Change Tab Title:</label>
+    <input type="text" id="titleInput" placeholder="this text goes on the tab title">
+
+    <label for="iconInput">hange Tab Icon (Paste Image URL):</label>
+    <input type="text" id="iconInput" placeholder="https://example.com/icon.png">
+    <div class="note">Tip: Right-click an image and select "Copy Image Address".</div>
+    
+
+    <div class="presets">
+        <!-- Presets now use direct High-Res PNG URLs (sz=128 for maximum crispness) -->
+        <button onclick="setPreset('Work Mode', 'https://www.google.com/s2/favicons?domain=docs.google.com&sz=128')">Work Mode</button>
+        <button onclick="setPreset('Reading', 'https://www.google.com/s2/favicons?domain=amazon.com&sz=128')">Reading</button>
+        <button onclick="setPreset('Coding', 'https://www.google.com/s2/favicons?domain=github.com&sz=128')">Coding</button>
+        <button onclick="setPreset('Music', 'https://www.google.com/s2/favicons?domain=spotify.com&sz=128')">Music</button>
+        <button onclick="setPreset('Default Tab Title', 'https://www.google.com/s2/favicons?domain=google.com&sz=128')">Reset</button>
+    </div>
+    <div class="presets">
+        <button onclick="updateIcon('https://www.google.com/s2/favicons?domain=google.com&sz=128')">Google</button>
+        <button onclick="updateIcon('https://www.youtube.com/s/desktop/257ac8fb/img/favicon.ico')">YouTube</button>
+        <button onclick="updateIcon('https://www.google.com/s2/favicons?domain=reddit.com&sz=128')">Reddit</button>
+        <button onclick="updateIcon('https://www.google.com/s2/favicons?domain=netflix.com&sz=128')">Netflix</button>
+    </div>
+
+    <script>
+        const titleInput = document.getElementById('titleInput');
+        const iconInput = document.getElementById('iconInput');
+        const faviconLink = document.getElementById('dynamic-favicon');
+
+        // Update Title on Typing
+        titleInput.addEventListener('input', function() {
+            document.title = this.value || "Default Tab Title";
+        });
+
+        // Update Icon on Typing
+        iconInput.addEventListener('input', function() {
+            if (this.value) {
+                faviconLink.href = this.value;
+            }
+        });
+
+        // Set Both Title and Icon
+        function setPreset(titleText, iconUrl) {
+            titleInput.value = titleText;
+            document.title = titleText;
+            iconInput.value = iconUrl;
+            faviconLink.href = iconUrl;
+        }
+
+        // Set Icon Only
+        function updateIcon(url) {
+            iconInput.value = url;
+            faviconLink.href = url;
+        }
+    </script>
+
+</body>
+</html>   
