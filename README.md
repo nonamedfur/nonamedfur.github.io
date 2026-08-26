@@ -1,7 +1,7 @@
-# web212.github.io
+# https://nonamedfur.github.io/
 
 my um website yeah
-
+https://nonamedfur.github.io/
 # v1.0.1
 fixed web loading bugs. 
 ok actually this is the release
