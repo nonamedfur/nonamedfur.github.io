@@ -4,81 +4,176 @@
     <meta charset="UTF-8">
     <title>Google</title>
     <link id="dynamic-favicon" rel="shortcut icon" href="https://www.gstatic.com/images/branding/searchlogo/ico/favicon.ico">
-    <script src="tab.js"></script>
+    
     <style>
-        body { font-family: sans-serif; padding: 20px; }
+        body { font-family: sans-serif; padding: 20px; margin: 0; background: #f0f0f0; }
         input { padding: 8px; width: 300px; margin-bottom: 10px; display: block; }
         label { font-weight: bold; display: block; margin-top: 15px; }
         .presets { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 5px; }
         button { padding: 8px 12px; cursor: pointer; background-color: #f0f0f0; border: 1px solid #ccc; border-radius: 4px; }
         button:hover { background-color: #e0e0e0; }
         .note { font-size: 0.9em; color: #666; margin-top: 5px; }
+
+        #setup-screen {
+            display: none;
+            background: #dee1e6;
+            padding: 12px 12px 0;
+            border-radius: 10px 10px 0 0;
+        }
+        #setup-screen .tab-bar {
+            display: flex;
+            gap: 2px;
+            overflow-x: auto;
+        }
+        #setup-screen .browser-tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            background: #dee1e6;
+            border: none;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-size: 0.9em;
+            white-space: nowrap;
+            max-width: 180px;
+            transition: background 0.15s;
+        }
+        #setup-screen .browser-tab:hover {
+            background: #ffffff;
+        }
+        #setup-screen .browser-tab img {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+        }
+        #setup-screen .browser-tab .tab-title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #setup-screen .tab-bar-hint {
+            text-align: center;
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 16px;
+        }
+
+        #reset-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: #ff4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        #reset-btn:hover { background: #cc0000; }
     </style>
 </head>
 <body>
 
-    <h2>WARNING
-        <br>IF THERE ARE ANY BUGS/ SUGGESTIONS YOU FIND PLEASE REPORT THEM IMMEDIATLY TO THE FORM
-        <a href="https://tally.so/r/0QRoGj">HERE</a>
-        <br>IF THE FORM DOESNT WORK TRY <a href="form.html">THIS ONE</a>
-    </h2>
-
-    <p>if you are changing it by hand make sure to make it look believeable...</p>
-
-    <label for="titleInput">Change Tab Title:</label>
-    <input type="text" id="titleInput" placeholder="this text goes on the tab title">
-
-    <label for="iconInput">Change Tab Icon (Paste Image URL):</label>
-    <input type="text" id="iconInput" placeholder="https://example.com/icon.png">
-    <div class="note">Tip: Right-click an image and select "Copy Image Address".</div>
-
-    <div class="presets">
-        <button onclick="setPreset('Work Mode', 'https://www.google.com/s2/favicons?domain=docs.google.com&sz=128')">Work Mode</button>
-        <button onclick="setPreset('Reading', 'https://www.google.com/s2/favicons?domain=amazon.com&sz=128')">Reading</button>
-        <button onclick="setPreset('Coding', 'https://www.google.com/s2/favicons?domain=github.com&sz=128')">Coding</button>
-        <button onclick="setPreset('Music', 'https://www.google.com/s2/favicons?domain=spotify.com&sz=128')">Music</button>
-        <button onclick="setPreset('Default Tab Title', 'https://www.google.com/s2/favicons?domain=google.com&sz=128')">Reset</button>
+    <!-- SETUP SCREEN -->
+    <div id="setup-screen">
+        <div class="tab-bar">
+            <button class="browser-tab" onclick="setPreset('New Tab', 'https://www.gstatic.com/images/branding/searchlogo/ico/favicon.ico')">
+                <img src="https://www.gstatic.com/images/branding/searchlogo/ico/favicon.ico">
+                <span class="tab-title">Chrome</span>
+            </button>
+            <button class="browser-tab" onclick="setPreset('New Tab', 'https://www.google.com/s2/favicons?domain=go.microsoft.com&sz=128')">
+                <img src="https://www.google.com/s2/favicons?domain=go.microsoft.com&sz=128">
+                <span class="tab-title">Edge</span>
+            </button>
+            <button class="browser-tab" onclick="setPreset('New Tab', 'https://www.google.com/s2/favicons?domain=brave.com&sz=128')">
+                <img src="https://www.google.com/s2/favicons?domain=brave.com&sz=128">
+                <span class="tab-title">Brave</span>
+            </button>
+            <button class="browser-tab" onclick="setPreset('New Tab', 'https://www.google.com/s2/favicons?domain=firefox.com&sz=128')">
+                <img src="https://www.google.com/s2/favicons?domain=firefox.com&sz=128">
+                <span class="tab-title">Firefox</span>
+            </button>
+        </div>
+        <p class="tab-bar-hint">Which browser are you using?</p>
     </div>
 
-    <p>perfect presets !!</p>
-    <div class="presets">
-        <button onclick="setPreset('Google', 'https://www.gstatic.com/images/branding/searchlogo/ico/favicon.ico')">Google</button>
-        <button onclick="setPreset('Netflix', 'https://www.google.com/s2/favicons?domain=netflix.com&sz=128')">Netflix</button>
+    <!-- MAIN PAGE -->
+    <div id="main-page" style="display:none;">
+        <h2>WARNING
+            <br>IF THERE ARE ANY BUGS/ SUGGESTIONS YOU FIND PLEASE REPORT THEM IMMEDIATLY TO THE FORM
+            <a href="https://tally.so/r/0QRoGj">HERE</a>
+            <br>IF THE FORM DOESNT WORK TRY <a href="form.html">THIS ONE</a>
+        </h2>
+
+        <p>if you are changing it by hand make sure to make it look believeable...</p>
+
+        <label for="titleInput">Change Tab Title:</label>
+        <input type="text" id="titleInput" placeholder="this text goes on the tab title">
+
+        <label for="iconInput">Change Tab Icon (Paste Image URL):</label>
+        <input type="text" id="iconInput" placeholder="https://example.com/icon.png">
+        <div class="note">Tip: Right-click an image and select "Copy Image Address".</div>
+
+        <div class="presets">
+            <button onclick="setPreset('Work Mode', 'https://www.google.com/s2/favicons?domain=docs.google.com&sz=128')">Work Mode</button>
+            <button onclick="setPreset('Reading', 'https://www.google.com/s2/favicons?domain=amazon.com&sz=128')">Reading</button>
+            <button onclick="setPreset('Coding', 'https://www.google.com/s2/favicons?domain=github.com&sz=128')">Coding</button>
+            <button onclick="setPreset('Music', 'https://www.google.com/s2/favicons?domain=spotify.com&sz=128')">Music</button>
+            <button onclick="setPreset('Default Tab Title', 'https://www.google.com/s2/favicons?domain=google.com&sz=128')">Reset</button>
+        </div>
+
+        <p>perfect presets !!</p>
+        <div class="presets">
+            <button onclick="setPreset('Google', 'https://www.gstatic.com/images/branding/searchlogo/ico/favicon.ico')">Google</button>
+            <button onclick="setPreset('Netflix', 'https://www.google.com/s2/favicons?domain=netflix.com&sz=128')">Netflix</button>
+        </div>
+
+        <p>believeable looking presets</p>
+        <div class="presets">
+            <button onclick="setPreset('Google', 'https://www.google.com/s2/favicons?domain=edulinkone.com&sz=128')">edulink.google</button>
+        </div>
     </div>
 
-    <p>believeable looking presets</p>
-    <div class="presets">
-        <button onclick="setPreset('Google', 'https://www.google.com/s2/favicons?domain=edulinkone.com&sz=128')">edulink.google</button>
-    </div>
-
-    <p>inprogress</p>
-    <div class="presets">
-        <button onclick="setPreset('Reading', 'https://www.google.com/s2/favicons?domain=amazon.com&sz=128')">Reading</button>
-        <button onclick="setPreset('Coding', 'https://www.google.com/s2/favicons?domain=github.com&sz=128')">Coding</button>
-        <button onclick="setPreset('Music', 'https://www.google.com/s2/favicons?domain=spotify.com&sz=128')">Music</button>
-        <button onclick="setPreset('Default Tab Title', 'https://www.google.com/s2/favicons?domain=google.com&sz=128')">Reset</button>
-    </div>
+    <button id="reset-btn" onclick="resetAll()">Reset</button>
 
     <script>
         const titleInput = document.getElementById('titleInput');
         const iconInput = document.getElementById('iconInput');
         const faviconLink = document.getElementById('dynamic-favicon');
 
+        function setPreset(titleText, iconUrl) {
+            titleInput.value = titleText;
+            document.title = titleText;
+            iconInput.value = iconUrl;
+            faviconLink.href = iconUrl;
+            localStorage.setItem('tabTitle', titleText);
+            localStorage.setItem('tabIcon', iconUrl);
+
+            document.getElementById('setup-screen').style.display = 'none';
+            document.getElementById('main-page').style.display = 'block';
+        }
+
+        function resetAll() {
+            localStorage.removeItem('tabTitle');
+            localStorage.removeItem('tabIcon');
+            document.title = 'Google';
+            faviconLink.href = 'https://www.gstatic.com/images/branding/searchlogo/ico/favicon.ico';
+            location.reload();
+        }
+
         (function init() {
             const savedTitle = localStorage.getItem('tabTitle');
             const savedIcon = localStorage.getItem('tabIcon');
 
             if (savedTitle && savedIcon) {
+                document.getElementById('main-page').style.display = 'block';
                 titleInput.value = savedTitle;
                 iconInput.value = savedIcon;
                 document.title = savedTitle;
                 faviconLink.href = savedIcon;
             } else {
-                const t = prompt("Set your tab title:");
-                const i = prompt("Paste your tab icon URL:");
-                if (t && i) {
-                    setPreset(t, i);
-                }
+                document.getElementById('setup-screen').style.display = 'block';
             }
         })();
 
@@ -93,15 +188,6 @@
                 localStorage.setItem('tabIcon', this.value);
             }
         });
-
-        function setPreset(titleText, iconUrl) {
-            titleInput.value = titleText;
-            document.title = titleText;
-            iconInput.value = iconUrl;
-            faviconLink.href = iconUrl;
-            localStorage.setItem('tabTitle', titleText);
-            localStorage.setItem('tabIcon', iconUrl);
-        }
     </script>
 
 </body>
