@@ -28,52 +28,35 @@
     <label for="titleInput">Change Tab Title:</label>
     <input type="text" id="titleInput" placeholder="this text goes on the tab title">
 
-    <label for="iconInput">hange Tab Icon (Paste Image URL):</label>
+    <label for="iconInput">Change Tab Icon (Paste Image URL):</label>
     <input type="text" id="iconInput" placeholder="https://example.com/icon.png">
     <div class="note">Tip: Right-click an image and select "Copy Image Address".</div>
-    
 
     <div class="presets">
-        <!-- Presets now use direct High-Res PNG URLs (sz=128 for maximum crispness) -->
         <button onclick="setPreset('Work Mode', 'https://www.google.com/s2/favicons?domain=docs.google.com&sz=128')">Work Mode</button>
         <button onclick="setPreset('Reading', 'https://www.google.com/s2/favicons?domain=amazon.com&sz=128')">Reading</button>
         <button onclick="setPreset('Coding', 'https://www.google.com/s2/favicons?domain=github.com&sz=128')">Coding</button>
         <button onclick="setPreset('Music', 'https://www.google.com/s2/favicons?domain=spotify.com&sz=128')">Music</button>
         <button onclick="setPreset('Default Tab Title', 'https://www.google.com/s2/favicons?domain=google.com&sz=128')">Reset</button>
     </div>
-    <div class="presets">
-        <button onclick="updateIcon('https://www.google.com/s2/favicons?domain=google.com&sz=128')">Google</button>
-        <button onclick="updateIcon('https://www.youtube.com/s/desktop/257ac8fb/img/favicon.ico')">YouTube</button>
-        <button onclick="updateIcon('https://www.google.com/s2/favicons?domain=reddit.com&sz=128')">Reddit</button>
-        <button onclick="updateIcon('https://www.google.com/s2/favicons?domain=netflix.com&sz=128')">Netflix</button>
-    </div>
 
     <p>perfect presets !!</p>
     <div class="presets">
         <button onclick="setPreset('Google', 'https://www.gstatic.com/images/branding/searchlogo/ico/favicon.ico')">Google</button>
         <button onclick="setPreset('Netflix', 'https://www.google.com/s2/favicons?domain=netflix.com&sz=128')">Netflix</button>
-
     </div>
 
     <p>believeable looking presets</p>
-
     <div class="presets">
         <button onclick="setPreset('Google', 'https://www.google.com/s2/favicons?domain=edulinkone.com&sz=128')">edulink.google</button>
     </div>
 
     <p>inprogress</p>
-
     <div class="presets">
-        <!-- Presets now use direct High-Res PNG URLs (sz=128 for maximum crispness) -->
-
         <button onclick="setPreset('Reading', 'https://www.google.com/s2/favicons?domain=amazon.com&sz=128')">Reading</button>
         <button onclick="setPreset('Coding', 'https://www.google.com/s2/favicons?domain=github.com&sz=128')">Coding</button>
         <button onclick="setPreset('Music', 'https://www.google.com/s2/favicons?domain=spotify.com&sz=128')">Music</button>
         <button onclick="setPreset('Default Tab Title', 'https://www.google.com/s2/favicons?domain=google.com&sz=128')">Reset</button>
-    </div>
-    <div class="presets">
-        <button onclick="updateIcon('https://www.youtube.com/s/desktop/257ac8fb/img/favicon.ico')">YouTube</button>
-        <button onclick="updateIcon('https://www.google.com/s2/favicons?domain=reddit.com&sz=128')">Reddit</button>
     </div>
 
     <script>
@@ -81,30 +64,43 @@
         const iconInput = document.getElementById('iconInput');
         const faviconLink = document.getElementById('dynamic-favicon');
 
-        // Update Title on Typing
+        (function init() {
+            const savedTitle = localStorage.getItem('tabTitle');
+            const savedIcon = localStorage.getItem('tabIcon');
+
+            if (savedTitle && savedIcon) {
+                titleInput.value = savedTitle;
+                iconInput.value = savedIcon;
+                document.title = savedTitle;
+                faviconLink.href = savedIcon;
+            } else {
+                const t = prompt("Set your tab title:");
+                const i = prompt("Paste your tab icon URL:");
+                if (t && i) {
+                    setPreset(t, i);
+                }
+            }
+        })();
+
         titleInput.addEventListener('input', function() {
             document.title = this.value || "Default Tab Title";
+            localStorage.setItem('tabTitle', this.value);
         });
 
-        // Update Icon on Typing
         iconInput.addEventListener('input', function() {
             if (this.value) {
                 faviconLink.href = this.value;
+                localStorage.setItem('tabIcon', this.value);
             }
         });
 
-        // Set Both Title and Icon
         function setPreset(titleText, iconUrl) {
             titleInput.value = titleText;
             document.title = titleText;
             iconInput.value = iconUrl;
             faviconLink.href = iconUrl;
-        }
-
-        // Set Icon Only
-        function updateIcon(url) {
-            iconInput.value = url;
-            faviconLink.href = url;
+            localStorage.setItem('tabTitle', titleText);
+            localStorage.setItem('tabIcon', iconUrl);
         }
     </script>
 
