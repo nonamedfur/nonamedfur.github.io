@@ -1,4 +1,27 @@
-.top-bar {
-    margin: auto;
-    background-color: grey;
+.topbar {
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.topbar h2 {
+  margin: 0;  
+}
+
+.sidebar {
+  margin: auto;
+  background-color: white;
+}
+
+.main {
+  background-color: white;
+}
+
+body {
+  background-color: rgb(132, 171, 245);
+}
+
+#textright {
+  text-align: right;
 }
